@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <h:head>
+        <h:outputStylesheet  name="css/bootstrap.min.css"></h:outputStylesheet>
+	<h:outputStylesheet  name="css/style.css"></h:outputStylesheet>
+    </h:head>
+<h:body> 
+    <div class="top-content">
+    <div class="container">
+            <div class="row">
+                <div class="col-sm-5 col-sm-offset-4">
+                    
+                    <center><h1 style="padding-left: 70px;">Welcome Back! Sign In</h1></center>  
+                </div>                         
+        </div>
+        <hr> </hr>
+        <div class="row">
+            
+        <div class="col-sm-6 col-md-6 col-sm-offset-4">
+        <div class="form-box">
+            <h2 style="color: #0275d8; padding-top: 30px;"><center>#{User.message}</center></h2>
+         <h2 class="form-heading"><center>Please Sign In</center></h2>
+         <hr> </hr>
+         <h:form>
+         <div class="form-group">
+         <h:outputLabel value="Username"></h:outputLabel>
+         <h:inputText value="#{User.username}" styleClass="form-control"/>
+         </div>
+         <div class="form-group">
+          <h:outputLabel value="Password"></h:outputLabel>
+         <h:inputText value="#{User.password}" styleClass="form-control"/>
+         </div>
+         <div class="checkbox">         
+      <h:selectBooleanCheckbox value="#{User.rememberMe}" />Remember Me
+    </div>
+             <center><h:commandButton action="#{User.login}" value="Submit" styleClass="btn btn-primary btn-lg"/></center>
+         </h:form>      
+              <hr> </hr> 
+          <h5><center> Don't have an account!</center></h5>
+         <h6><center><a href="faces/Register.xhtml">Register Here</a></center></h6> 
+        </div>
+        </div>
+        </div>
+  </div>
+    </div>
+</h:body>
+</html>
+
