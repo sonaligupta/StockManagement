@@ -5,6 +5,7 @@
     <h:head>
         <h:outputStylesheet  name="css/bootstrap.min.css"></h:outputStylesheet>
 	<h:outputStylesheet  name="css/style.css"></h:outputStylesheet>
+        <h:outputScript name="JS/validate.js" target="head" />
     </h:head>
 <h:body> 
     <div class="container">
@@ -31,11 +32,11 @@
          </div>
          <div class="form-group">
           <h:outputLabel value="Phone Number"></h:outputLabel>
-          <h:inputText value="#{User.phoneNumber}" styleClass="form-control" required="true" requiredMessage="Enter Phone Number"/>
+          <h:inputText  value="#{User.phoneNumber}" styleClass="form-control" required="true" requiredMessage="Enter Phone Number"/>
          </div>
              <div class="form-group">
           <h:outputLabel value="Email"></h:outputLabel>
-         <h:inputText value="#{User.email}" styleClass="form-control" required="true" requiredMessage="Enter Email"/>
+         <h:inputText  value="#{User.email}" styleClass="form-control" required="true" requiredMessage="Enter Email"/>
          </div>
              <div class="form-group">
           <h:outputLabel value="Username"></h:outputLabel>
@@ -46,7 +47,7 @@
          <h:inputText value="#{User.password}" styleClass="form-control" required="true" requiredMessage="Enter Password"/>
          </div>           
         
-             <center><h:commandButton action="#{User.addUser}" value="Register" styleClass="btn btn-primary btn-lg"/></center>
+             <center><h:commandButton action="#{User.addUser()}" value="Register" styleClass="btn btn-primary btn-lg"/></center>
          </h:form>      
               <hr> </hr> 
       <h5><center> Already have an account!</center></h5>
@@ -55,7 +56,6 @@
         </div>
         </div>
   </div>
-
 </h:body>
 </html>
 

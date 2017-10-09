@@ -1,11 +1,21 @@
 package managedbean;
+import DatabaseConnection.DataConnect;
+import DatabaseConnection.Session;
+import com.mysql.jdbc.Connection;
+import com.mysql.jdbc.PreparedStatement;
+import dao.LoginDAO;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
+
 
 
 @ManagedBean (name = "User", eager = true)
-@RequestScoped
+@SessionScoped
 public class User {
+        private int Id;
         private String Message;
        
 	private String FirstName;
@@ -23,26 +33,7 @@ public class User {
 	private String Password;
         
 	public boolean rememberMe;
-	
-	//Action Method to register
-	public String addUser() {  
-            
-            Message=Username + " " + "got Registered Successfully, Please sign In";
-		return "Register";
-		
-	}
-        public String login(){
-                  
-    	if(Username.equals("Admin") && Password.equals("Admin")) {
-    		Message ="Successfully logged-in.";
-    		return "login";
-    	} else {
-    		Message ="There is an error in signing up, Please Sign In again!";
-    		return "login";
-    	}
-    }
-        
-
+       
 	public String getFirstName() {
 		return FirstName;
 	}
@@ -98,4 +89,72 @@ public class User {
 	public void setMessage(String message) {
 		Message = message;
 	}
+        
+        
+        
+      //validate login
+        public String ValidateUsernamePassowrd(){
+            boolean valid = LoginDAO.validate(Username,Password);
+            if(valid){
+                HttpSession session = Session.getSession();
+			session.setAttribute("username", Username);
+                        FacesContext fc = FacesContext.getCurrentInstance();
+                        User user=(User) fc.getExternalContext().getSessionMap().get("User");
+                        Username = user.getUsername();
+			return "main";
+            }
+            else {
+                FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_WARN,
+							"Incorrect Username and Passowrd",
+							"Please enter correct username and Password"));
+			return "login";
+            }
+        }
+        //logout event, invalidate session
+	public String logout() {
+		HttpSession session = Session.getSession();
+		session.invalidate();
+		return "login";
+	}
+        //Action Method to register
+	public String addUser() {  
+             int i=0;        
+         Connection con = null;
+		PreparedStatement ps = null;
+
+		try { 
+			con = DataConnect.getConnection();
+			ps = (PreparedStatement) con.prepareStatement("INSERT INTO User(FirstName,LastName,Address,PhoneNumber,Email,Username,Password ) VALUES(?,?,?,?,?,?,?)");
+                        ps.setString(1, FirstName );
+			ps.setString(2, LastName);
+                        ps.setString(3, Address);
+                        ps.setInt(4, PhoneNumber);
+                        ps.setString(5, Email);
+                        ps.setString(6, Username);
+                        ps.setString(7, Password);
+                        
+			 i = ps.executeUpdate();
+                         System.out.println(i +"hooo");
+                }
+			catch (Exception e) {
+                System.out.println(e);
+            } finally {
+                try {
+                    con.close();
+                    ps.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            if (i > 0) {
+                Message="Successfully Registered";
+            return "login";
+        } else
+                Message="error signing up";
+            return "Register";
+		
+     }
+           
 }
