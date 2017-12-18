@@ -13,11 +13,20 @@ import java.sql.DriverManager;
  * @author Mac
  */
 public class DataConnect {
+
+    private DataConnect() {
+        
+    }
+    private static String user="root";
+    private static String password="Zephyr99";
+    private static String port="3306";
+    private static String db="ICSI518_DB";
+    private static String url = "jdbc:mysql://localhost:3306/ICSI518_DB";
     public static Connection getConnection() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection con = (Connection) DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/ICSI518_DB", "root", "Zephyr99");
+					url, user, password);
 			return con;
 		} catch (Exception ex) {
 			System.out.println("Database.getConnection() Error -->"

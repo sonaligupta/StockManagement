@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <h:outputStylesheet  name="css/bootstrap.min.css"></h:outputStylesheet>
+	<h:outputStylesheet  name="css/style.css"></h:outputStylesheet>
+        <ui:insert name="resources" />
+        <ui:define name="resources">
+        <link rel="stylesheet" type="text/css" src="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
+        </ui:define>
+        <h:outputScript name="JS/jquery-3.2.1.min.js" target="head" />
+    </h:head>
+
+    <h:body class="home">
+        
+         <div class="container-fluid display-table">
+        <div class="row display-table-row">
+            <div class="col-md-2 col-sm-1 hidden-xs display-table-cell v-align box" id="navigation">
+                <div class="navi">
+                    <ul>
+                        <li ><a href="UserDashboard.xhtml"><i class="fa fa-home" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Home</span></a></li>
+                        <li><a href="watchlist.xhtml"><i class="fa fa-bar-chart" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Watchlist</span></a></li>
+                        <li><a href="buyAndSell.xhtml"><i class="fa fa-user" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Sell Stocks</span></a></li>
+                        <li class="active"><a href="SelectManager.xhtml"><i class="fa fa-calendar" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Browse Manager</span></a></li>
+                        <li><a href="#"><i class="fa fa-calendar" aria-hidden="true"></i><span class="hidden-xs hidden-sm"> </span></a></li>
+                        <li><a href="#"><i class="fa fa-cog" aria-hidden="true"></i><span class="hidden-xs hidden-sm"></span></a></li>
+                        <li><a href="#"><i class="fa fa-cog" aria-hidden="true"></i><span class="hidden-xs hidden-sm"></span></a></li>
+                        <li><a href="#"><i class="fa fa-cog" aria-hidden="true"></i><span class="hidden-xs hidden-sm"></span></a></li>
+                        <li><a href="#"><i class="fa fa-cog" aria-hidden="true"></i><span class="hidden-xs hidden-sm"></span></a></li>
+                        <li><a href="#"><i class="fa fa-cog" aria-hidden="true"></i><span class="hidden-xs hidden-sm"></span></a></li>
+                     
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-10 col-sm-11 display-table-cell v-align">
+                <!--<button type="button" class="slide-toggle">Slide Toggle</button> -->
+                <div class="row">
+                    <header>
+                        <div class="col-md-7">
+                            <nav class="navbar-default pull-left">
+                                <div class="navbar-header">
+                                    <button type="button" class="navbar-toggle collapsed" data-toggle="offcanvas" data-target="#side-menu" aria-expanded="false">
+                                        <span class="sr-only">Toggle navigation</span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                    </button>
+                                </div>
+                            </nav>
+                            <div class="search hidden-xs hidden-sm">
+                                <input type="text" placeholder="Search" id="search"/>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="header-rightside">
+                                <ul class="list-inline header-top pull-right">
+                                            <div>
+                                                <h:form>
+                                            <h:commandLink action="#{User.logout}" value="Logout" class="btn btn-primary" style='float: right;'></h:commandLink>
+                                                </h:form>
+                                             </div>
+                                    <li class="dropdown">
+                                        <a href="#" class="hidden-xs dropdown-toggle" data-toggle="dropdown"><img src="resources/images/profilephoto.png" alt="user"/>
+                                            <b class="caret"></b></a>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                         
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </header>
+                </div>
+                <div class="user-dashboard">
+                    <h1>Hello, #{User.username}</h1>
+                    <h2 style="color: #0275d8; padding-top: 30px;"><center>#{Usertomanagerbean.message}</center></h2>
+                    <div class="row">
+                        <table border="1" align="center">
+                            <tr>
+                                        <th>Manager Names </th>
+                                        <th >Amount to Buy/Sell</th>
+                                        <th >Request</th>
+                             </tr>
+                        <ui:repeat value="#{Usertomanagerbean.reqManagersList}" var ="a">
+                                  <tr>
+                                        <td binding="a.manager"> #{a.manager} </td> 
+                                <h:form>
+                                         <td><h:inputText value="#{Usertomanagerbean.amount}"/>Specify Amount</td> 
+                                 
+                                         <td> <h:commandButton action="#{Usertomanagerbean.requestManager(a.manager,Usertomanagerbean.amount)}" value="Request this Manager" class="btn btn-primary" style='float: right;'></h:commandButton> </td>  
+                                               
+                                         </h:form>                  
+                                  </tr>
+                          </ui:repeat>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+    </div>
+    
+    </h:body>
+</html>

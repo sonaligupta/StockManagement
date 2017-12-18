@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <h:outputStylesheet  name="css/bootstrap.min.css"></h:outputStylesheet>
+	<h:outputStylesheet  name="css/style.css"></h:outputStylesheet>
+        <ui:insert name="resources" />
+        <ui:define name="resources">
+        <link rel="stylesheet" type="text/css" src="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
+        </ui:define>
+        <h:outputScript name="JS/jquery-3.2.1.min.js" target="head" />
+        <h:outputScript name="JS/datatoggle.js" target="body" />
+    </h:head>
+
+    <h:body class="home">
+        
+         <div class="container-fluid display-table">
+        <div class="row display-table-row">
+            <div class="col-md-2 col-sm-1 hidden-xs display-table-cell v-align box" id="navigation">
+                <div class="navi">
+                    <ul>
+                        <li class="active"><a href="#"><i class="fa fa-home" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Home</span></a></li>
+                        <li><a href="watchlist.xhtml"><i class="fa fa-bar-chart" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Watchlist</span></a></li>
+                        <li><a href="buyAndSell.xhtml"><i class="fa fa-user" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Sell Stocks for cLients</span></a></li>                   
+                        <li><a href="BuyStocksclient.xhtml"><i class="fa fa-cog" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Buy Stocks for Clients</span></a></li>
+                        <li><a href="updateProfile.xhtml"><i class="fa fa-cog" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Update Profile</span></a></li>
+                        <li><a href="managersBalance.xhtml"><i class="fa fa-cog" aria-hidden="true"></i><span class="hidden-xs hidden-sm">view History and Balance</span></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-10 col-sm-11 display-table-cell v-align">
+                <!--<button type="button" class="slide-toggle">Slide Toggle</button> -->
+                <div class="row">
+                    <header>
+                        <div class="col-md-7">
+                            <nav class="navbar-default pull-left">
+                                <div class="navbar-header">
+                                    <button type="button" class="navbar-toggle collapsed" data-toggle="offcanvas" data-target="#side-menu" aria-expanded="false">
+                                        <span class="sr-only">Toggle navigation</span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                    </button>
+                                </div>
+                            </nav>
+                            <div class="search hidden-xs hidden-sm">
+                                <input type="text" placeholder="Search" id="search"/>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="header-rightside">
+                                <ul class="list-inline header-top pull-right">
+                                            <div>
+                                                <h:form>
+                                            <h:commandLink action="#{User.logout}" value="Logout" class="btn btn-primary" style='float: right;'></h:commandLink>
+                                                </h:form>
+                                             </div>
+                                    <li class="dropdown">
+                                        <a href="#" class="hidden-xs dropdown-toggle" data-toggle="dropdown"><img src="resources/images/profilephoto.png" alt="user"/>
+                                            <b class="caret"></b></a>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <div class="navbar-content">
+                                                    <span>JS Krishna</span>
+                                                    <p class="text-muted small">
+                                                        me@jskrishna.com
+                                                    </p>
+                                                    <div class="divider">
+                                                    </div>
+                                                    <a href="#" class="view btn-sm active">View Profile</a>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </header>
+                </div>
+                <div class="user-dashboard">
+                    <h1>Hello, #{User.username}</h1>
+                    <div class="row">
+                        <h:form>
+                        <div class="col-md-5 col-sm-5 col-xs-12 gutter">
+                            <div class="sales">
+                                <h2>Select Stocks</h2>
+                        <div style="margin-top:10px;">
+                        <h:selectOneMenu id="symbol" value="#{stockApiBean.selectedSymbol}">
+                            <f:selectItems value="#{stockApiBean.availableSymbols}" />
+                        </h:selectOneMenu>
+                        </div>
+                        </div>
+                        </div>
+                        <div class="col-md-5 col-sm-5 col-xs-12 gutter">
+
+                            <div class="sales report">
+                                <h2>Time Interval</h2>
+                        <div style="margin-top:10px;">
+                        <h:selectOneMenu id="interval" value="#{stockApiBean.selectedInterval}">
+                            <f:selectItems value="#{stockApiBean.availableIntervals}" />
+                        </h:selectOneMenu>
+                        </div>
+                            </div>
+                        </div>
+                            <div class="col-md-2 col-sm-2 col-xs-12">
+                                <h:commandButton value="Watch Stocks" action="#{stockApiBean.timeseries}" styleClass="btn btn-success" />
+                            </div>
+                             <h:commandButton value="Add to watchlist" action="#{stockApiBean.addtoWatchlist}" styleClass="btn btn-success" />
+                        </h:form>
+                        <h:messages style="color: red;"/>
+                    </div>
+                    
+                    <div style="margin-top: 10px;">
+                     <h:panelGroup rendered="#{not empty stockApiBean.table1Markup}">
+                    <h:outputText value="#{stockApiBean.table1Markup}" escape="false" styleClass="preformatted" />
+                </h:panelGroup>
+                 
+                <h:panelGroup rendered="#{not empty stockApiBean.table2Markup}">
+                    <h:outputText value="#{stockApiBean.table2Markup}" escape="false" styleClass="preformatted" />
+                </h:panelGroup>
+                </div>
+                </div>
+            </div>
+        </div>
+       
+    </div>
+    
+    </h:body>
+</html>
